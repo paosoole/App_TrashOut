@@ -18,7 +18,7 @@ class TrashOut : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        //*************Error no inicia si busca la basedeDatos***********
+
         // ✅ Esta es la forma correcta de crear una instancia Room
       database = Room.databaseBuilder(
          applicationContext,
