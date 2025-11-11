@@ -73,7 +73,7 @@ fun LoginScreen (navController: NavController ) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(20.dp))
+
             LogoTrashOut()
             Spacer(modifier = Modifier.height(16.dp))
             MyTexts(Modifier.align(Alignment.CenterHorizontally))

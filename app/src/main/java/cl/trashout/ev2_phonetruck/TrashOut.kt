@@ -1,10 +1,12 @@
 package cl.trashout.ev2_phonetruck
 
 import android.app.Application
+import android.util.Log
 import androidx.room.Room
 import cl.trashout.ev2_phonetruck.domain.data.config.AppDatabase
 import cl.trashout.ev2_phonetruck.domain.data.repository.FormRegistroRepository
 import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
+import com.google.android.gms.maps.MapsInitializer
 
 class TrashOut : Application() {
 
@@ -18,14 +20,23 @@ class TrashOut : Application() {
         super.onCreate()
         //*************Error no inicia si busca la basedeDatos***********
         // ✅ Esta es la forma correcta de crear una instancia Room
-//        database = Room.databaseBuilder(
-//            applicationContext,
-//            AppDatabase::class.java,
-//            "app_database"
-//        ).build()
-//
-//        // ✅ Inicializar tus repositorios
-//        formRegistroRepository = FormRegistroRepository(database.formRegistroDao())
-//        userRepository = UserRepository(database.formRegistroDao())
+      database = Room.databaseBuilder(
+         applicationContext,
+           AppDatabase::class.java,
+           "TrashOut_DB"
+       ).build()
+
+        // ✅ Inicializar Google Maps
+        try {
+            MapsInitializer.initialize(applicationContext)
+        } catch (e: Exception) {
+            Log.e("TrashOut", "Error initializing Google Maps", e)
+        }
+
+//        ✅ Inicializar tus repositorios
+       formRegistroRepository = FormRegistroRepository(database.formRegistroDao())
+        userRepository = UserRepository(database.formRegistroDao())
+
+
     }
 }

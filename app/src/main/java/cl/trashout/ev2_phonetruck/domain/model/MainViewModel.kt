@@ -14,7 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class
+MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val fusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(application)

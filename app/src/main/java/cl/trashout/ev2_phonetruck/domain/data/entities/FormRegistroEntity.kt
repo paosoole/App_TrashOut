@@ -10,5 +10,6 @@ data class FormRegistroEntity(
     val id: Int = 0,
     val nombre: String,
     val correo: String,
-    val password: String
+    val password: String,
+    //val comuna: String
 )
