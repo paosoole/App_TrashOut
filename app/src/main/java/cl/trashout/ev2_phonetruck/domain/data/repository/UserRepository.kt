@@ -6,19 +6,32 @@ import cl.trashout.ev2_phonetruck.domain.data.entities.FormRegistroEntity
 
 class UserRepository(private val dao: FormRegistroDao) {
 
-    suspend fun insertarUsuario(nombre: String, correo: String, password: String) {
-        dao.insertarUsuario(FormRegistroEntity(nombre = nombre, correo = correo, password = password))
+    suspend fun registrarUsuario(
+        nombre: String,
+        correo: String,
+        username: String,
+        password: String,
+        comuna: String
+    ) {
+        val user = FormRegistroEntity(
+            nombre = nombre,
+            correo = correo,
+            username = username,
+            password = password,
+            comuna = comuna
+        )
+        dao.insertarUsuario(user)
     }
 
-    suspend fun obtenerUsuarioPorCorreo(correo: String): FormRegistroEntity? {
-        return dao.obtenerUsuarioPorCorreo(correo)
-    }
+    suspend fun login(username: String, password: String) =
+        dao.login(username, password)
 
-    suspend fun login(correo: String, password: String): FormRegistroEntity? {
-        return dao.login(correo, password)
-    }
+    suspend fun obtenerUsuarioPorCorreo(correo: String) =
+        dao.obtenerPorCorreo(correo)
 
-    suspend fun actualizarPassword(correo: String, nuevaPass: String) {
+    suspend fun obtenerUsuarioPorUsername(username: String) =
+        dao.obtenerPorUsername(username)
+
+    suspend fun actualizarPassword(correo: String, nuevaPass: String) =
         dao.actualizarPassword(correo, nuevaPass)
-    }
 }

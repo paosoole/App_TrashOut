@@ -12,8 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.material3.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,22 +32,30 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
-import android.content.res.Configuration
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import cl.trashout.ev2_phonetruck.domain.model.LoginViewModel
 import cl.trashout.ev2_phonetruck.ui.components.Buttoms.ButtonLogin
+import cl.trashout.ev2_phonetruck.domain.model.LoginViewModelFactory
+import cl.trashout.ev2_phonetruck.TrashOut
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBarDefaults
+
+
+
 @Composable
-fun LoginScreen (navController: NavController ) {
+fun LoginScreen(navController: NavController) {
 
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf( "")}
+    val viewModel: LoginViewModel = viewModel(
+        factory = LoginViewModelFactory(TrashOut.userRepository)
+    )
+    val estado by viewModel.estado.collectAsState()
 
-    Scaffold (
-        topBar = {
-            LoginTopBar()
-        },
+    Scaffold(
+        topBar = { LoginTopBar() },
         bottomBar = {
             BottomAppBar(
                 containerColor = Color(0xFF00BCD4),
@@ -57,16 +63,17 @@ fun LoginScreen (navController: NavController ) {
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Servicio de Recoleccion",
+                    text = "Servicio de Recolección",
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
+    ) { innerPadding ->
 
-    ){ innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(innerPadding)
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
@@ -80,54 +87,79 @@ fun LoginScreen (navController: NavController ) {
 
             // Login
             LoginTextField(
-                username = username,
-                onUsernameChange = {username = it},
-                password = password,
-                onPasswordChange = {password = it}
+                username = estado.username,
+                onUsernameChange = { viewModel.onUsernameChange(it) },
+                password = estado.password,
+                onPasswordChange = { viewModel.onPasswordChange(it) }
             )
 
-
             Spacer(modifier = Modifier.height(16.dp))
+
             BoxOpciones(
                 onRegistrarClick = {
-                    // acción registrar
                     navController.navigate(AppScreens.RegistroScreen.route) {
                         popUpTo(AppScreens.RegistroScreen.route) { inclusive = true }
                     }
                 },
                 onOlvidoClick = {
-                    // acción olvidar contraseña
-
-                    // Aquí va la navegación
                     navController.navigate(AppScreens.ResetPassScreen.route) {
                         popUpTo(AppScreens.ResetPassScreen.route) { inclusive = true }
                     }
                 }
             )
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+
             // Botón de login
+//            ButtonLogin(
+//                onClick = {
+//                    // Solo intentar login si hay datos
+//                    if (estado.username.isBlank() || estado.password.isBlank()) {
+//                        // Actualizar error en el estado
+//                        viewModel.onUsernameChange(estado.username) // para disparar update
+//                        viewModel.onPasswordChange(estado.password)
+//                        // Puedes usar MutableState en vez de StateFlow para error inmediato si quieres
+//                        // Por ahora lo mostramos con el estado
+//                        return@ButtonLogin
+//                    }
+//
+//                    viewModel.iniciarSesion {
+//                        // Login exitoso → navegar a TrackingScreen
+//                        navController.navigate(AppScreens.TrackingScreen.route) {
+//                            popUpTo(AppScreens.TrackingScreen.route) { inclusive = true }
+//                        }
+//                    }
+//                },
+//                modifier = Modifier.align(Alignment.CenterHorizontally)
+//            )
             ButtonLogin(
                 onClick = {
-                    // Aquí va la navegación
-                    navController.navigate(AppScreens.TrackingScreen.route) {
-                        popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
-                    }
-                },
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                    println("CLICK LOGIN")   // 🔥 prueba crítica
+                }
             )
+
+            // Mostrar error si existe
+            estado.error?.let { errorMsg ->
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = errorMsg,
+                    color = Color.Red,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
     }
 }
 
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginTopBar(){
+fun LoginTopBar() {
     TopAppBar(
-        title = {Text ( "TrashOut")},
+        title = { Text("TrashOut") },
         navigationIcon = {
-            IconButton(onClick = {/* manejar navegacion*/}) {
+            IconButton(onClick = { /* manejar navegacion*/ }) {
                 Image(
                     painter = painterResource(id = R.drawable.camion),
                     contentDescription = "logo de la App",
@@ -135,9 +167,9 @@ fun LoginTopBar(){
                     modifier = Modifier.size(40.dp)
                 )
             }
-            },
+        },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF00BCD4), //modificar
+            containerColor = Color(0xFF00BCD4),
             titleContentColor = Color.DarkGray,
             navigationIconContentColor = MaterialTheme.colorScheme.primary
         )
@@ -145,29 +177,27 @@ fun LoginTopBar(){
 }
 
 @Composable
-fun MyText(text : String){
+fun MyText(text: String) {
     Text(
         text = text,
         style = MaterialTheme.typography.titleLarge,
         color = Color(0xFF00BCD4),
         textAlign = TextAlign.Center,
-
     )
 }
 
 @Composable
-fun MyTexts( modifier: Modifier = Modifier){
-    Column (
+fun MyTexts(modifier: Modifier = Modifier) {
+    Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         MyText("Acceso para Conductores")
     }
 }
 
 @Composable
-fun LogoTrashOut()
-{
+fun LogoTrashOut() {
     Image(
         modifier = Modifier.fillMaxWidth(),
         painter = painterResource(id = R.drawable.logo_fondo),
@@ -177,37 +207,30 @@ fun LogoTrashOut()
 
 @Composable
 fun LoginTextField(
-    username : String,
-    onUsernameChange : (String) -> Unit,
+    username: String,
+    onUsernameChange: (String) -> Unit,
     password: String,
-    onPasswordChange:(String) -> Unit
-){
-    Column (
+    onPasswordChange: (String) -> Unit
+) {
+    Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
-    ){
-        //Campo Usuario
+    ) {
         OutlinedTextField(
-            value = username,
-            onValueChange = onUsernameChange,
-            label = {Text ("Usuario")},
-            placeholder = {Text("Nombre de Usuario")},
-            leadingIcon = {
-                Icon(Icons.Default.Person, contentDescription = "Usuario")
-            },
+            value = username,                     // ✔ correcto
+            onValueChange = onUsernameChange,     // ✔ correcto
+            label = { Text("Usuario") },
+            placeholder = { Text("Nombre de Usuario") },
+            leadingIcon = { Icon(Icons.Default.Person, contentDescription = "Usuario") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        //Campo Contraseña
         OutlinedTextField(
-            value = password,
-            onValueChange = onPasswordChange,
-            label = {Text("Contraseña")},
-            placeholder = {Text("Ingrese Contraseña")},
-            leadingIcon = {
-                Icon(Icons.Default.Lock, contentDescription = "Contraseña")
-            },
-
+            value = password,                     // ✔ correcto
+            onValueChange = onPasswordChange,     // ✔ correcto
+            label = { Text("Contraseña") },
+            placeholder = { Text("Ingrese Contraseña") },
+            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Contraseña") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
@@ -215,64 +238,30 @@ fun LoginTextField(
     }
 }
 
-
-
 @Composable
-fun TextButtonOlvidoPass(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    TextButton(
-        onClick = onClick,
-        modifier = modifier
-    ) {
-        Text("¿Olvidaste Contraseña?")
-    }
+fun TextButtonOlvidoPass(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    TextButton(onClick = onClick, modifier = modifier) { Text("¿Olvidaste Contraseña?") }
 }
 
 @Composable
-fun TextButtonRegistrar(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    TextButton(
-        onClick = onClick,
-        modifier = modifier
-    ) {
-        Text("Registrarse")
-    }
+fun TextButtonRegistrar(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    TextButton(onClick = onClick, modifier = modifier) { Text("Registrarse") }
 }
 
 @Composable
-fun BoxOpciones(
-    onRegistrarClick: () -> Unit,
-    onOlvidoClick: () -> Unit
-) {
+fun BoxOpciones(onRegistrarClick: () -> Unit, onOlvidoClick: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-
-        TextButtonRegistrar(
-            modifier = Modifier,
-            onClick = onRegistrarClick
-        )
-
-        TextButtonOlvidoPass(
-            modifier = Modifier,
-            onClick = onOlvidoClick
-        )
+        TextButtonRegistrar(onClick = onRegistrarClick)
+        TextButtonOlvidoPass(onClick = onOlvidoClick)
     }
 }
 
-
 @Preview(showBackground = true)
-
 @Composable
 fun LoginScreenPreview() {
     val fakeNavController = androidx.navigation.compose.rememberNavController()
-
-    LoginScreen(
-        navController = fakeNavController
-    )
+    LoginScreen(navController = fakeNavController)
 }

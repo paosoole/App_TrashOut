@@ -4,7 +4,6 @@ import android.app.Application
 import android.util.Log
 import androidx.room.Room
 import cl.trashout.ev2_phonetruck.domain.data.config.AppDatabase
-import cl.trashout.ev2_phonetruck.domain.data.repository.FormRegistroRepository
 import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
 import com.google.android.gms.maps.MapsInitializer
 
@@ -12,7 +11,6 @@ class TrashOut : Application() {
 
     companion object {
         lateinit var database: AppDatabase
-        lateinit var formRegistroRepository: FormRegistroRepository
         lateinit var userRepository: UserRepository
     }
 
@@ -34,7 +32,6 @@ class TrashOut : Application() {
         }
 
 //        ✅ Inicializar tus repositorios
-       formRegistroRepository = FormRegistroRepository(database.formRegistroDao())
         userRepository = UserRepository(database.formRegistroDao())
 
 

@@ -9,23 +9,23 @@ import cl.trashout.ev2_phonetruck.domain.data.entities.FormRegistroEntity
 @Dao
 interface FormRegistroDao {
 
-    // Inserta o reemplaza un usuario
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertarUsuario(usuario: FormRegistroEntity): Long
+    // Registrar usuario
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    suspend fun insertarUsuario(usuario: FormRegistroEntity)
 
-    // Obtiene un usuario por su correo
+    // Obtener usuario por correo
     @Query("SELECT * FROM form_registro WHERE correo = :correo LIMIT 1")
-    suspend fun obtenerUsuarioPorCorreo(correo: String): FormRegistroEntity?
+    suspend fun obtenerPorCorreo(correo: String): FormRegistroEntity?
 
-    // Verifica login (correo y contraseña)
-    @Query("SELECT * FROM form_registro WHERE correo = :correo AND password = :password LIMIT 1")
-    suspend fun login(correo: String, password: String): FormRegistroEntity?
+    // Obtener usuario por username
+    @Query("SELECT * FROM form_registro WHERE username = :username LIMIT 1")
+    suspend fun obtenerPorUsername(username: String): FormRegistroEntity?
 
-    // Actualiza contraseña
-    @Query("UPDATE form_registro SET password = :nuevaPass WHERE correo = :correo")
-    suspend fun actualizarPassword(correo: String, nuevaPass: String)
+    // Login
+    @Query("SELECT * FROM form_registro WHERE username = :username AND password = :password LIMIT 1")
+    suspend fun login(username: String, password: String): FormRegistroEntity?
 
-    // Elimina todos los registros
-    @Query("DELETE FROM form_registro")
-    suspend fun deleteAll()
+    // Actualizar password usando correo
+    @Query("UPDATE form_registro SET password = :password WHERE correo = :correo")
+    suspend fun actualizarPassword(correo: String, password: String)
 }

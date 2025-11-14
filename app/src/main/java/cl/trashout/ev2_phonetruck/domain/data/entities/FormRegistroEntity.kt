@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "form_registro")
 data class FormRegistroEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val nombre: String,
     val correo: String,
-    val password: String,
-    //val comuna: String
+    val comuna: String,
+    val username: String,
+    val password: String
 )
