@@ -1,8 +1,8 @@
-package cl.trashout.ev2_phonetruck.domain.data.repository
+package cl.trashout.ev2_phonetruck.model.domain.data.repository
 
 
-import cl.trashout.ev2_phonetruck.domain.data.DAO.FormRegistroDao
-import cl.trashout.ev2_phonetruck.domain.data.entities.FormRegistroEntity
+import cl.trashout.ev2_phonetruck.model.domain.data.DAO.FormRegistroDao
+import cl.trashout.ev2_phonetruck.model.domain.data.entities.FormRegistroEntity
 
 class UserRepository(private val dao: FormRegistroDao) {
 

@@ -19,8 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import cl.trashout.ev2_phonetruck.domain.model.RegistroViewModel
-import cl.trashout.ev2_phonetruck.domain.model.RegistroViewModelFactory
+import cl.trashout.ev2_phonetruck.viewModel.RegistroViewModel
+import cl.trashout.ev2_phonetruck.viewModel.RegistroViewModelFactory
 import cl.trashout.ev2_phonetruck.ui.components.Texts.InputText
 import cl.trashout.ev2_phonetruck.TrashOut
 import cl.trashout.ev2_phonetruck.ui.components.Buttoms.BackButton

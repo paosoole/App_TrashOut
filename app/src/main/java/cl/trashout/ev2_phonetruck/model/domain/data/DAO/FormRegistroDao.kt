@@ -1,10 +1,10 @@
-package cl.trashout.ev2_phonetruck.domain.data.DAO
+package cl.trashout.ev2_phonetruck.model.domain.data.DAO
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import cl.trashout.ev2_phonetruck.domain.data.entities.FormRegistroEntity
+import cl.trashout.ev2_phonetruck.model.domain.data.entities.FormRegistroEntity
 
 @Dao
 interface FormRegistroDao {

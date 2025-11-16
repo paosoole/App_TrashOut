@@ -1,4 +1,4 @@
-package cl.trashout.ev2_phonetruck.domain.model
+package cl.trashout.ev2_phonetruck.model
 
 import java.sql.Timestamp
 

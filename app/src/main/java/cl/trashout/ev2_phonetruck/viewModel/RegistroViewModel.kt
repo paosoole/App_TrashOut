@@ -1,10 +1,9 @@
-package cl.trashout.ev2_phonetruck.domain.model
+package cl.trashout.ev2_phonetruck.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
+import cl.trashout.ev2_phonetruck.model.domain.data.repository.UserRepository
 import kotlinx.coroutines.launch
-
 
 class RegistroViewModel(
     private val repository: UserRepository

@@ -1,6 +1,5 @@
 package cl.trashout.ev2_phonetruck.ui.screens
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,14 +9,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,12 +27,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import cl.trashout.ev2_phonetruck.viewModel.ResetViewModel
 import cl.trashout.ev2_phonetruck.ui.components.Texts.CampoTexo
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
 
 @Composable
-fun ResetPassScreen(navController: NavController) {
+fun ResetPassScreen(
+    navController: NavController,
+    viewModel: ResetViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+) {
     var username by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+
     Scaffold (
         topBar = {
             LoginTopBar()
@@ -79,6 +80,7 @@ fun ResetPassScreen(navController: NavController) {
 
             ButtonReset(
                 onClick = {
+                    showDialog= true
                     // Aquí va la navegación
                     navController.navigate(AppScreens.LoginScreen.route) {
                         popUpTo(AppScreens.LoginScreen.route) { inclusive = true }

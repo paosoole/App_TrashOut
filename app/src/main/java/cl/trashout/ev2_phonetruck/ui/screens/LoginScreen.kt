@@ -37,14 +37,13 @@ import androidx.navigation.NavController
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
-import cl.trashout.ev2_phonetruck.domain.model.LoginViewModel
+import cl.trashout.ev2_phonetruck.viewModel.LoginViewModel
 import cl.trashout.ev2_phonetruck.ui.components.Buttoms.ButtonLogin
-import cl.trashout.ev2_phonetruck.domain.model.LoginViewModelFactory
+import cl.trashout.ev2_phonetruck.viewModel.LoginViewModelFactory
 import cl.trashout.ev2_phonetruck.TrashOut
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
-
-
+import kotlinx.coroutines.flow.update
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -135,9 +134,27 @@ fun LoginScreen(navController: NavController) {
 //            )
             ButtonLogin(
                 onClick = {
-                    println("CLICK LOGIN")   // 🔥 prueba crítica
-                }
+
+                    // Validación antes de llamar al ViewModel
+                    if (estado.username.isBlank() || estado.password.isBlank()) {
+                        viewModel.setError("Debe ingresar usuario y contraseña")
+                        return@ButtonLogin
+                    }
+
+                    // Llamada al ViewModel
+                    viewModel.iniciarSesion(
+                        onSuccess = {
+                            // 👉 Navegar a TrackingScreen cuando el login es OK
+                            navController.navigate(AppScreens.TrackingScreen.route) {
+                                popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
+                            }
+                        }
+                    )
+                },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
+
+
 
             // Mostrar error si existe
             estado.error?.let { errorMsg ->

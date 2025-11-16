@@ -3,8 +3,8 @@ package cl.trashout.ev2_phonetruck
 import android.app.Application
 import android.util.Log
 import androidx.room.Room
-import cl.trashout.ev2_phonetruck.domain.data.config.AppDatabase
-import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
+import cl.trashout.ev2_phonetruck.model.domain.data.config.AppDatabase
+import cl.trashout.ev2_phonetruck.model.domain.data.repository.UserRepository
 import com.google.android.gms.maps.MapsInitializer
 
 class TrashOut : Application() {

@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -34,12 +33,12 @@ import androidx.navigation.NavController
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import cl.trashout.ev2_phonetruck.R
-import cl.trashout.ev2_phonetruck.domain.model.UserLocationModel
+import cl.trashout.ev2_phonetruck.model.UserLocationModel
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
 import com.google.accompanist.permissions.PermissionState
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.maps.android.compose.*
-import cl.trashout.ev2_phonetruck.domain.model.MainViewModel
+import cl.trashout.ev2_phonetruck.viewModel.MainViewModel
 import com.google.accompanist.permissions.isGranted
 import com.google.maps.android.compose.MapProperties
 import androidx.compose.foundation.layout.*
@@ -49,7 +48,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import com.google.android.gms.maps.model.LatLng
 import cl.trashout.ev2_phonetruck.ui.components.Buttoms.ButtonLogut
-import androidx.compose.foundation.layout.*
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @SuppressLint("MissingPermission")
 @Composable

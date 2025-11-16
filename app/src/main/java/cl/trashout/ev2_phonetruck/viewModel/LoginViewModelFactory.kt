@@ -1,8 +1,8 @@
-package cl.trashout.ev2_phonetruck.domain.model
+package cl.trashout.ev2_phonetruck.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
+import cl.trashout.ev2_phonetruck.model.domain.data.repository.UserRepository
 
 class LoginViewModelFactory(
     private val userRepository: UserRepository

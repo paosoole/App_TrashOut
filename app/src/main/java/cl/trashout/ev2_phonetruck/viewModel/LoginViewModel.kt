@@ -1,15 +1,14 @@
-package cl.trashout.ev2_phonetruck.domain.model
+package cl.trashout.ev2_phonetruck.viewModel
 
-import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
-import cl.trashout.ev2_phonetruck.domain.model.LoginUIState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cl.trashout.ev2_phonetruck.model.domain.data.repository.UserRepository
+import cl.trashout.ev2_phonetruck.model.LoginUIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
 
 class LoginViewModel(
     private val repository: UserRepository
@@ -42,4 +41,9 @@ class LoginViewModel(
             }
         }
     }
+    fun setError(msg: String) {
+        _estado.value = _estado.value.copy(error = msg)
+    }
+
+
 }

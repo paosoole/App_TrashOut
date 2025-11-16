@@ -1,9 +1,10 @@
-package cl.trashout.ev2_phonetruck.domain.model
+package cl.trashout.ev2_phonetruck.viewModel
 
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import cl.trashout.ev2_phonetruck.model.UserLocationModel
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
