@@ -4,13 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
 
-class LoginViewModelFactory(
-    private val userRepository: UserRepository
+class ResetViewModelFactory(
+    private val repository: UserRepository
 ) : ViewModelProvider.Factory {
+
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(ResetViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return LoginViewModel(userRepository) as T
+            return ResetViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

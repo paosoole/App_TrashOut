@@ -43,7 +43,7 @@ import cl.trashout.ev2_phonetruck.viewModel.LoginViewModelFactory
 import cl.trashout.ev2_phonetruck.TrashOut
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
-import kotlinx.coroutines.flow.update
+
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -84,7 +84,6 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
             MyTexts(Modifier.align(Alignment.CenterHorizontally))
 
-            // Login
             LoginTextField(
                 username = estado.username,
                 onUsernameChange = { viewModel.onUsernameChange(it) },
@@ -96,71 +95,35 @@ fun LoginScreen(navController: NavController) {
 
             BoxOpciones(
                 onRegistrarClick = {
-                    navController.navigate(AppScreens.RegistroScreen.route) {
-                        popUpTo(AppScreens.RegistroScreen.route) { inclusive = true }
-                    }
+                    navController.navigate(AppScreens.RegistroScreen.route)
                 },
                 onOlvidoClick = {
-                    navController.navigate(AppScreens.ResetPassScreen.route) {
-                        popUpTo(AppScreens.ResetPassScreen.route) { inclusive = true }
-                    }
+                    navController.navigate(AppScreens.ResetPassScreen.route)
                 }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-
-            // Botón de login
-//            ButtonLogin(
-//                onClick = {
-//                    // Solo intentar login si hay datos
-//                    if (estado.username.isBlank() || estado.password.isBlank()) {
-//                        // Actualizar error en el estado
-//                        viewModel.onUsernameChange(estado.username) // para disparar update
-//                        viewModel.onPasswordChange(estado.password)
-//                        // Puedes usar MutableState en vez de StateFlow para error inmediato si quieres
-//                        // Por ahora lo mostramos con el estado
-//                        return@ButtonLogin
-//                    }
-//
-//                    viewModel.iniciarSesion {
-//                        // Login exitoso → navegar a TrackingScreen
-//                        navController.navigate(AppScreens.TrackingScreen.route) {
-//                            popUpTo(AppScreens.TrackingScreen.route) { inclusive = true }
-//                        }
-//                    }
-//                },
-//                modifier = Modifier.align(Alignment.CenterHorizontally)
-//            )
             ButtonLogin(
                 onClick = {
-
-                    // Validación antes de llamar al ViewModel
                     if (estado.username.isBlank() || estado.password.isBlank()) {
                         viewModel.setError("Debe ingresar usuario y contraseña")
                         return@ButtonLogin
                     }
 
-                    // Llamada al ViewModel
-                    viewModel.iniciarSesion(
-                        onSuccess = {
-                            // 👉 Navegar a TrackingScreen cuando el login es OK
-                            navController.navigate(AppScreens.TrackingScreen.route) {
-                                popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
-                            }
+                    viewModel.iniciarSesion {
+                        navController.navigate(AppScreens.TrackingScreen.route) {
+                            popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
                         }
-                    )
+                    }
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
-
-
-            // Mostrar error si existe
-            estado.error?.let { errorMsg ->
+            estado.error?.let { msg ->
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = errorMsg,
+                    text = msg,
                     color = Color.Red,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()

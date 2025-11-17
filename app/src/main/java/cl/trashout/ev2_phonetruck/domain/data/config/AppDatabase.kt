@@ -1,12 +1,12 @@
-package cl.trashout.ev2_phonetruck.model.domain.data.config
+package cl.trashout.ev2_phonetruck.domain.data.config
 
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import cl.trashout.ev2_phonetruck.model.domain.data.DAO.FormRegistroDao
-import cl.trashout.ev2_phonetruck.model.domain.data.entities.FormRegistroEntity
+import cl.trashout.ev2_phonetruck.domain.data.DAO.FormRegistroDao
+import cl.trashout.ev2_phonetruck.domain.data.entities.FormRegistroEntity
 @Database(
     entities = [FormRegistroEntity::class],
     version = 1,

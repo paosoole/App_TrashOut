@@ -2,16 +2,16 @@ package cl.trashout.ev2_phonetruck.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.trashout.ev2_phonetruck.model.domain.data.repository.UserRepository
+import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
+import cl.trashout.ev2_phonetruck.ui.components.Validaciones.ValidacionPassword
+import cl.trashout.ev2_phonetruck.ui.components.Validaciones.ValidacionUtils
 import kotlinx.coroutines.launch
+import java.util.regex.Pattern
 
 class RegistroViewModel(
     private val repository: UserRepository
 ) : ViewModel() {
 
-    /**
-     * REGISTRO DE USUARIO
-     */
     fun registrar(
         nombre: String,
         correo: String,
@@ -21,38 +21,44 @@ class RegistroViewModel(
         onResult: (Boolean, String?) -> Unit
     ) {
         viewModelScope.launch {
-            try {
-                repository.registrarUsuario(
-                    nombre = nombre,
-                    correo = correo,
-                    username = username,
-                    password = password,
-                    comuna = comuna
-                )
-                onResult(true, null)
-            } catch (e: Exception){
-                onResult(false, e.message)
-            }
-            // Validación básica
+
+            // 1. Validaciones de campos vacíos
             if (nombre.isBlank() || correo.isBlank() || username.isBlank() || password.isBlank()) {
                 onResult(false, "Todos los campos son obligatorios")
                 return@launch
             }
 
-            // Validar duplicados
+            // 2. Validar correo
+            if (!isCorreoValido(correo)) {
+                onResult(false, "Correo electrónico no válido")
+                return@launch
+            }
+
+            // 3. Validar contraseña
+            if (!isPasswordValida(password)) {
+                onResult(
+                    false,
+                    "La contraseña debe tener mínimo 6 caracteres, una mayúscula, un número y un símbolo"
+                )
+                return@launch
+            }
+//            if(!ValidacionUtils. isValidPassword(password){
+//                //error
+//                }
+
+            // 4. Validar duplicados
             if (repository.obtenerUsuarioPorCorreo(correo) != null) {
                 onResult(false, "El correo ya está registrado")
                 return@launch
             }
 
-            // Verificar si username ya existe
             if (repository.obtenerUsuarioPorUsername(username) != null) {
                 onResult(false, "El nombre de usuario ya existe")
                 return@launch
             }
 
+            // 5. Registrar usuario
             try {
-                // Registrar usuario
                 repository.registrarUsuario(
                     nombre = nombre,
                     correo = correo,
@@ -69,48 +75,12 @@ class RegistroViewModel(
         }
     }
 
-    /**
-     * LOGIN (usa username + password)
-     */
-    fun login(username: String, password: String, onResult: (Boolean, String?) -> Unit) {
-        viewModelScope.launch {
-            try {
-                val usuario = repository.login(username, password)
-                if (usuario != null) {
-                    onResult(true, null)
-                } else {
-                    onResult(false, "Usuario o contraseña incorrectos")
-                }
-            } catch (e: Exception) {
-                onResult(false, "Error al iniciar sesión")
-            }
-        }
+    private fun isCorreoValido(correo: String): Boolean {
+        return correo.contains("@") && android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches()
     }
 
-    /**
-     * RESTABLECER CONTRASEÑA (con correo)
-     */
-    fun resetPassword(correo: String, nuevaPass: String, onResult: (Boolean, String?) -> Unit) {
-        viewModelScope.launch {
-
-            if (correo.isBlank()) {
-                onResult(false, "Debe ingresar su correo registrado")
-                return@launch
-            }
-
-            val usuario = repository.obtenerUsuarioPorCorreo(correo)
-
-            if (usuario == null) {
-                onResult(false, "No existe un usuario con ese correo")
-                return@launch
-            }
-
-            try {
-                repository.actualizarPassword(correo, nuevaPass)
-                onResult(true, null)
-            } catch (e: Exception) {
-                onResult(false, "No fue posible actualizar la contraseña")
-            }
-        }
+    private fun isPasswordValida(password: String): Boolean {
+        val regex = Regex("^(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{6,}$")
+        return regex.matches(password)
     }
 }

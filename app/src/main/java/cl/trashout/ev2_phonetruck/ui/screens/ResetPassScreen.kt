@@ -15,31 +15,45 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import cl.trashout.ev2_phonetruck.domain.data.config.AppDatabase
+import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
+import cl.trashout.ev2_phonetruck.ui.components.Buttoms.BackButton
 import cl.trashout.ev2_phonetruck.viewModel.ResetViewModel
 import cl.trashout.ev2_phonetruck.ui.components.Texts.CampoTexo
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
+import cl.trashout.ev2_phonetruck.viewModel.ResetViewModelFactory
 
 @Composable
 fun ResetPassScreen(
-    navController: NavController,
-    viewModel: ResetViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    navController: NavController
 ) {
+    val context = LocalContext.current
+
+    // Base de datos + Repository
+    val db = AppDatabase.getDatabase(context)
+    val repository = UserRepository(db.formRegistroDao())
+
+    // ViewModel con Factory
+    val viewModel: ResetViewModel = viewModel(
+        factory = ResetViewModelFactory(repository)
+    )
+
+    val estado by viewModel.estado.collectAsState()
+
     var username by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
 
-    Scaffold (
+    Scaffold(
         topBar = {
             LoginTopBar()
         },
@@ -50,22 +64,24 @@ fun ResetPassScreen(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Servicio de Recoleccion",
+                    text = "Servicio de Recolección",
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
 
-    ){ innerPadding ->
+    ) { innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(innerPadding)
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            BackButton(navController = navController)
             Spacer(modifier = Modifier.height(20.dp))
             LogoTrashOut()
             Spacer(modifier = Modifier.height(16.dp))
@@ -75,26 +91,38 @@ fun ResetPassScreen(
 
             CampoTexo(
                 username = username,
-                onUsernameChange = {username = it},
+                onUsernameChange = { username = it },
             )
+
+            // --- RESULTADO DE LA VALIDACIÓN ---
+            if (estado.loading) {
+                Text("Validando usuario...", color = Color.Gray)
+            }
+
+            estado.error?.let {
+                Text(it, color = Color.Red)
+            }
+
+            estado.emailDestino?.let { correo ->
+                Text("Correo encontrado: $correo", color = Color(0xFF009688))
+
+                // Navegar automáticamente
+                navController.navigate(AppScreens.LoginScreen.route) {
+                    popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
+                }
+
+                viewModel.limpiar()
+            }
 
             ButtonReset(
                 onClick = {
-                    showDialog= true
-                    // Aquí va la navegación
-                    navController.navigate(AppScreens.LoginScreen.route) {
-                        popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
-                    }
+                    viewModel.validarUsuario(username)
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-
-
         }
     }
 }
-
-
 
 @Composable
 fun ButtonReset(
@@ -114,10 +142,7 @@ fun ButtonReset(
 
 @Preview(showBackground = true)
 @Composable
-fun ResetPassScreenview() {
+fun ResetPassScreenPreview() {
     val fakeNavController = androidx.navigation.compose.rememberNavController()
-
-    ResetPassScreen(
-        navController = fakeNavController
-    )
+    ResetPassScreen(navController = fakeNavController)
 }

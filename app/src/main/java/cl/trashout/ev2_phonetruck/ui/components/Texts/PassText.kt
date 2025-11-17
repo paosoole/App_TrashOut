@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -20,7 +19,8 @@ import androidx.compose.ui.unit.dp
 fun  PassText (
 
     password: String,
-    onPasswordChange:(String) -> Unit
+    onPasswordChange:(String) -> Unit,
+    label: String = "Contraseña"
     ){
         Column (
             modifier = Modifier.fillMaxWidth(),
@@ -42,4 +42,39 @@ fun  PassText (
             )
         }
     }
+
+@Composable
+fun PassTextConfirm(
+    password: String,
+    onPasswordChange: (String) -> Unit,
+    isError: Boolean,
+    errorMessage: String = ""
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = onPasswordChange,
+            label = { Text("Confirme Contraseña") },
+            placeholder = { Text("Reingrese Contraseña") },
+            leadingIcon = {
+                Icon(Icons.Default.Lock, contentDescription = "Contraseña")
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth(),
+            isError = isError      // <-- MOSTRAR BORDE ROJO
+        )
+
+        if (isError) {
+            Text(
+                text = errorMessage,
+                color = androidx.compose.ui.graphics.Color.Red
+            )
+        }
+    }
+}
 
