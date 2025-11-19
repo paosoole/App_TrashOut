@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -25,12 +26,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import cl.trashout.ev2_phonetruck.TrashOut
 import cl.trashout.ev2_phonetruck.domain.data.config.AppDatabase
 import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
 import cl.trashout.ev2_phonetruck.ui.components.Buttoms.BackButton
 import cl.trashout.ev2_phonetruck.viewModel.ResetViewModel
 import cl.trashout.ev2_phonetruck.ui.components.Texts.CampoTexo
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
+import cl.trashout.ev2_phonetruck.ui.theme.Calipso_1
 import cl.trashout.ev2_phonetruck.viewModel.ResetViewModelFactory
 
 @Composable
@@ -40,8 +43,8 @@ fun ResetPassScreen(
     val context = LocalContext.current
 
     // Base de datos + Repository
-    val db = AppDatabase.getDatabase(context)
-    val repository = UserRepository(db.formRegistroDao())
+
+    val repository = TrashOut.userRepository
 
     // ViewModel con Factory
     val viewModel: ResetViewModel = viewModel(
@@ -103,15 +106,31 @@ fun ResetPassScreen(
                 Text(it, color = Color.Red)
             }
 
-            estado.emailDestino?.let { correo ->
-                Text("Correo encontrado: $correo", color = Color(0xFF009688))
-
-                // Navegar automáticamente
-                navController.navigate(AppScreens.LoginScreen.route) {
-                    popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
-                }
-
-                viewModel.limpiar()
+            if (estado.emailDestino != null) {
+                AlertDialog(
+                    onDismissRequest = { },
+                    title = {
+                        Text("Correo encontrado")
+                    },
+                    text = {
+                        Text("Se ha enviado un link de recuperacion de contraseña a: ${estado.emailDestino} ")
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                viewModel.limpiar()
+                                navController.navigate(AppScreens.LoginScreen.route) {
+                                    popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF24C1D9)
+                            )
+                        ) {
+                            Text("Volver a Login")
+                        }
+                    }
+                )
             }
 
             ButtonReset(
