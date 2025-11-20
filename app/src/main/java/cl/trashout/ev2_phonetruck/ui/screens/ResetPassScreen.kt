@@ -38,7 +38,6 @@ import cl.trashout.ev2_phonetruck.ui.components.buttoms.ButtonReset
 fun ResetPassScreen(
     navController: NavController
 ) {
-    //val context = LocalContext.current
 
     // Base de datos + Repository
 

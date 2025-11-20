@@ -72,25 +72,25 @@ MainViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    fun stopLocationUpdates() {
-        locationCallback?.let {
-            fusedLocationProviderClient.removeLocationUpdates(it)
-        }
-    }
+//    fun stopLocationUpdates() {
+//        locationCallback?.let {
+//            fusedLocationProviderClient.removeLocationUpdates(it)
+//        }
+//    }
 
-    @SuppressLint("MissingPermission")
-    fun getLastKnownLocation() {
-        fusedLocationProviderClient.lastLocation
-            .addOnSuccessListener { androidLocation ->
-                androidLocation?.let { loc ->
-                    viewModelScope.launch {
-                        val userLocation = UserLocationModel(
-                            latitude = loc.latitude,
-                            longitude = loc.longitude
-                        )
-                        _location.emit(userLocation)
-                    }
-                }
-            }
-    }
+//    @SuppressLint("MissingPermission")
+//    fun getLastKnownLocation() {
+//        fusedLocationProviderClient.lastLocation
+//            .addOnSuccessListener { androidLocation ->
+//                androidLocation?.let { loc ->
+//                    viewModelScope.launch {
+//                        val userLocation = UserLocationModel(
+//                            latitude = loc.latitude,
+//                            longitude = loc.longitude
+//                        )
+//                        _location.emit(userLocation)
+//                    }
+//                }
+//            }
+//    }
 }

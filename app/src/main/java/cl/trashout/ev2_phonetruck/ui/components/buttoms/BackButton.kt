@@ -17,7 +17,7 @@ fun BackButton(
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "Atrás",
-            tint = Color(0xFF00BCD4) // o el color que necesites
+            tint = Color(0xFF00BCD4)
         )
     }
 }

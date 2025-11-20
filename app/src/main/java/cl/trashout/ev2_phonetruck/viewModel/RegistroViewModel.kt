@@ -39,9 +39,6 @@ class RegistroViewModel(
                 )
                 return@launch
             }
-//            if(!ValidacionUtils. isValidPassword(password){
-//                //error
-//                }
 
             // 4. Validar duplicados
             if (repository.obtenerUsuarioPorCorreo(correo) != null) {

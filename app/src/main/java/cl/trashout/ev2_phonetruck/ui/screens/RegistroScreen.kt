@@ -223,14 +223,7 @@ fun RegistroScreen(navController: NavController) {
                 )
             }
 
-//            // Navegación después del registro exitoso
-//            LaunchedEffect(registroExitoso) {
-//                if (registroExitoso == true) {
-//                    navController.navigate(AppScreens.LoginScreen.route) {
-//                        popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
-//                    }
-//                }
-//            }
+
         }
     }
 }

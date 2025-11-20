@@ -41,30 +41,4 @@ class ResetViewModel(
     }
 
 
-    /**
-     * RESTABLECER CONTRASEÑA (con correo)
-     */
-    fun resetPassword(correo: String, nuevaPass: String, onResult: (Boolean, String?) -> Unit) {
-        viewModelScope.launch {
-
-            if (correo.isBlank()) {
-                onResult(false, "Debe ingresar su correo registrado")
-                return@launch
-            }
-
-            val usuario = repository.obtenerUsuarioPorCorreo(correo)
-
-            if (usuario == null) {
-                onResult(false, "No existe un usuario con ese correo")
-                return@launch
-            }
-
-            try {
-                repository.actualizarPassword(correo, nuevaPass)
-                onResult(true, null)
-            } catch (e: Exception) {
-                onResult(false, "No fue posible actualizar la contraseña")
-            }
-        }
-    }
 }
