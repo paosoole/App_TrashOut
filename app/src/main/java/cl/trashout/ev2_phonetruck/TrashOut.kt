@@ -14,7 +14,8 @@ class TrashOut : Application() {
         lateinit var userRepository: UserRepository
     }
 
-    override fun onCreate() {
+    override fun onCreate()
+    {
         super.onCreate()
 
         // ✅ Esta es la forma correcta de crear una instancia Room

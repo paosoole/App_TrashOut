@@ -97,6 +97,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.compose.material.icons.extended.v154)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.compose.foundation.layout)
 
     // ROOM - VERSIÓN ACTUALIZADA
     val room_version = "2.7.0"  // ← VERSIÓN MÁS RECIENTE

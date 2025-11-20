@@ -20,7 +20,8 @@ import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
 import cl.trashout.ev2_phonetruck.viewModel.RegistroViewModel
 import cl.trashout.ev2_phonetruck.viewModel.RegistroViewModelFactory
 import cl.trashout.ev2_phonetruck.ui.components.Validaciones.*
-
+import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
+import cl.trashout.ev2_phonetruck.ui.components.barras.LogoTrashOut
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistroScreen(navController: NavController) {
@@ -73,7 +74,7 @@ fun RegistroScreen(navController: NavController) {
 
 
     Scaffold(
-        topBar = { LoginTopBar() },
+        topBar = {TopBar() },
         bottomBar = {
             BottomAppBar(
                 containerColor = Color(0xFF00BCD4),

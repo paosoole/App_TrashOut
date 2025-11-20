@@ -27,20 +27,19 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cl.trashout.ev2_phonetruck.TrashOut
-import cl.trashout.ev2_phonetruck.domain.data.config.AppDatabase
-import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
 import cl.trashout.ev2_phonetruck.ui.components.Buttoms.BackButton
 import cl.trashout.ev2_phonetruck.viewModel.ResetViewModel
 import cl.trashout.ev2_phonetruck.ui.components.Texts.CampoTexo
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
-import cl.trashout.ev2_phonetruck.ui.theme.Calipso_1
 import cl.trashout.ev2_phonetruck.viewModel.ResetViewModelFactory
-
+import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
+import cl.trashout.ev2_phonetruck.ui.components.barras.LogoTrashOut
+import cl.trashout.ev2_phonetruck.ui.components.Buttoms.ButtonReset
 @Composable
 fun ResetPassScreen(
     navController: NavController
 ) {
-    val context = LocalContext.current
+    //val context = LocalContext.current
 
     // Base de datos + Repository
 
@@ -54,11 +53,10 @@ fun ResetPassScreen(
     val estado by viewModel.estado.collectAsState()
 
     var username by remember { mutableStateOf("") }
-    var showDialog by remember { mutableStateOf(false) }
+    //var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = {
-            LoginTopBar()
+        topBar = {TopBar()
         },
         bottomBar = {
             BottomAppBar(
@@ -89,9 +87,7 @@ fun ResetPassScreen(
             LogoTrashOut()
             Spacer(modifier = Modifier.height(16.dp))
             MyTexts(Modifier.align(Alignment.CenterHorizontally))
-
             Spacer(modifier = Modifier.height(16.dp))
-
             CampoTexo(
                 username = username,
                 onUsernameChange = { username = it },
@@ -143,21 +139,7 @@ fun ResetPassScreen(
     }
 }
 
-@Composable
-fun ButtonReset(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Button(
-        onClick = onClick,
-        modifier = modifier,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF00BCD4)
-        )
-    ) {
-        Text("Resetear contraseña", color = Color(0xFF3F51B5))
-    }
-}
+
 
 @Preview(showBackground = true)
 @Composable

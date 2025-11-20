@@ -48,6 +48,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import com.google.android.gms.maps.model.LatLng
 import cl.trashout.ev2_phonetruck.ui.components.Buttoms.ButtonLogut
+import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @SuppressLint("MissingPermission")
@@ -111,28 +113,6 @@ fun TrackingScreen(navController: NavController,
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBar() {
-    TopAppBar(
-        title = { Text("Trash Out") },
-        navigationIcon = {
-            IconButton(onClick = { /* manejar clic del ícono */ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.camion),
-                    contentDescription = "Logo de la app",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF00BCD4),
-            titleContentColor = Color.White,
-            navigationIconContentColor = Color.White
-        )
-    )
-}
 
 
 @Composable
@@ -227,7 +207,8 @@ fun LocationMap(
             val currentLatLng = LatLng(location.latitude, location.longitude)
             Marker(
                 state = MarkerState(position = currentLatLng),
-                title = "Tu ubicación actual"
+                title = "Tu ubicación actual"//,
+                //icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher_background)
             )
         }
     }

@@ -43,6 +43,8 @@ import cl.trashout.ev2_phonetruck.viewModel.LoginViewModelFactory
 import cl.trashout.ev2_phonetruck.TrashOut
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
+import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
+import cl.trashout.ev2_phonetruck.ui.components.barras.LogoTrashOut
 
 
 @Composable
@@ -54,7 +56,7 @@ fun LoginScreen(navController: NavController) {
     val estado by viewModel.estado.collectAsState()
 
     Scaffold(
-        topBar = { LoginTopBar() },
+        topBar = { TopBar() },
         bottomBar = {
             BottomAppBar(
                 containerColor = Color(0xFF00BCD4),
@@ -133,28 +135,7 @@ fun LoginScreen(navController: NavController) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun LoginTopBar() {
-    TopAppBar(
-        title = { Text("TrashOut") },
-        navigationIcon = {
-            IconButton(onClick = { /* manejar navegacion*/ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.camion),
-                    contentDescription = "logo de la App",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF00BCD4),
-            titleContentColor = Color.DarkGray,
-            navigationIconContentColor = MaterialTheme.colorScheme.primary
-        )
-    )
-}
+
 
 @Composable
 fun MyText(text: String) {
@@ -176,14 +157,7 @@ fun MyTexts(modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun LogoTrashOut() {
-    Image(
-        modifier = Modifier.fillMaxWidth(),
-        painter = painterResource(id = R.drawable.logo_fondo),
-        contentDescription = "logo de Fondo",
-    )
-}
+
 
 @Composable
 fun LoginTextField(
