@@ -1,4 +1,4 @@
-package cl.trashout.ev2_phonetruck.ui.components.Validaciones
+package cl.trashout.ev2_phonetruck.ui.components.validaciones
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import cl.trashout.ev2_phonetruck.utils.ValidacionUtils
 
 @Composable
 fun ValidacionPassword(
@@ -40,7 +41,7 @@ fun ValidacionPassword(
 
         if (!isValid && password.isNotEmpty()) {
             Text(
-                "Debe tener mínimo 6 caracteres, una mayúscula, un número y un símbolo",
+                "Debe tener mínimo 6 caracteres, una mayúscula, una minuscula,un número y un símbolo",
                 color = Color.Red
             )
         }

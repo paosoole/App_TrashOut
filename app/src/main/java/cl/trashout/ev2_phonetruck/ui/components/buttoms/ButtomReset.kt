@@ -1,4 +1,4 @@
-package cl.trashout.ev2_phonetruck.ui.components.Buttoms
+package cl.trashout.ev2_phonetruck.ui.components.buttoms
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun ButtonLogut(
+fun ButtonReset(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -19,6 +19,6 @@ fun ButtonLogut(
             containerColor = Color(0xFF00BCD4)
         )
     ) {
-        Text("Cerrar Sesión", color = Color.White)
+        Text("Resetear contraseña", color = Color(0xFF3F51B5))
     }
 }

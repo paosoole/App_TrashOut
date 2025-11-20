@@ -1,4 +1,4 @@
-package cl.trashout.ev2_phonetruck.ui.components.Texts
+package cl.trashout.ev2_phonetruck.ui.components.texts
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme

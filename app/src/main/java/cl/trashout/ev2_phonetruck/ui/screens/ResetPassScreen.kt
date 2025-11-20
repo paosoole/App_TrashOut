@@ -20,21 +20,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cl.trashout.ev2_phonetruck.TrashOut
-import cl.trashout.ev2_phonetruck.ui.components.Buttoms.BackButton
+import cl.trashout.ev2_phonetruck.ui.components.buttoms.BackButton
 import cl.trashout.ev2_phonetruck.viewModel.ResetViewModel
-import cl.trashout.ev2_phonetruck.ui.components.Texts.CampoTexo
+import cl.trashout.ev2_phonetruck.ui.components.texts.CampoTexo
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
 import cl.trashout.ev2_phonetruck.viewModel.ResetViewModelFactory
 import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
 import cl.trashout.ev2_phonetruck.ui.components.barras.LogoTrashOut
-import cl.trashout.ev2_phonetruck.ui.components.Buttoms.ButtonReset
+import cl.trashout.ev2_phonetruck.ui.components.buttoms.ButtonReset
 @Composable
 fun ResetPassScreen(
     navController: NavController

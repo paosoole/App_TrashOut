@@ -2,11 +2,8 @@ package cl.trashout.ev2_phonetruck.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
-import cl.trashout.ev2_phonetruck.ui.components.Validaciones.ValidacionPassword
-import cl.trashout.ev2_phonetruck.ui.components.Validaciones.ValidacionUtils
+import cl.trashout.ev2_phonetruck.model.data.repository.UserRepository
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
 
 class RegistroViewModel(
     private val repository: UserRepository

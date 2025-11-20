@@ -1,4 +1,4 @@
-package cl.trashout.ev2_phonetruck.ui.components.validation
+package cl.trashout.ev2_phonetruck.ui.components.validaciones
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import cl.trashout.ev2_phonetruck.ui.components.Validaciones.ValidacionUtils
+import cl.trashout.ev2_phonetruck.utils.ValidacionUtils
 
 @Composable
 fun ValidacionPassConfirm(

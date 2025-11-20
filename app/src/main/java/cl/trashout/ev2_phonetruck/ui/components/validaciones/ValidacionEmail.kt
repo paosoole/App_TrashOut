@@ -1,10 +1,7 @@
-package cl.trashout.ev2_phonetruck.ui.components.Validaciones
+package cl.trashout.ev2_phonetruck.ui.components.validaciones
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
-import cl.trashout.ev2_phonetruck.ui.components.Validaciones.ValidacionText
-import cl.trashout.ev2_phonetruck.ui.components.Validaciones.ValidacionUtils
+import cl.trashout.ev2_phonetruck.utils.ValidacionUtils
 
 @Composable
 fun ValidacionEmail(

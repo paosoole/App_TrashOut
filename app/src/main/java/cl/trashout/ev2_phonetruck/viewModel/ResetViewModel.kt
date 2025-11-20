@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
+import cl.trashout.ev2_phonetruck.model.data.repository.UserRepository
 
 data class ResetState(
     val emailDestino: String? = null,

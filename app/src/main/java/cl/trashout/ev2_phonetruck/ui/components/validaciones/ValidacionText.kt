@@ -1,4 +1,4 @@
-package cl.trashout.ev2_phonetruck.ui.components.Validaciones
+package cl.trashout.ev2_phonetruck.ui.components.validaciones
 
 
 import androidx.compose.foundation.layout.Column

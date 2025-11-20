@@ -14,14 +14,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cl.trashout.ev2_phonetruck.TrashOut
-import cl.trashout.ev2_phonetruck.ui.components.Buttoms.BackButton
-import cl.trashout.ev2_phonetruck.ui.components.validation.*
+import cl.trashout.ev2_phonetruck.ui.components.buttoms.BackButton
+import cl.trashout.ev2_phonetruck.ui.components.validaciones.*
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
 import cl.trashout.ev2_phonetruck.viewModel.RegistroViewModel
 import cl.trashout.ev2_phonetruck.viewModel.RegistroViewModelFactory
-import cl.trashout.ev2_phonetruck.ui.components.Validaciones.*
 import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
-import cl.trashout.ev2_phonetruck.ui.components.barras.LogoTrashOut
+import cl.trashout.ev2_phonetruck.ui.components.validaciones.ValidacionEmail
+import cl.trashout.ev2_phonetruck.ui.components.validaciones.ValidacionPassword
+import cl.trashout.ev2_phonetruck.ui.components.validaciones.ValidacionText
+import cl.trashout.ev2_phonetruck.utils.ValidacionUtils
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistroScreen(navController: NavController) {

@@ -1,6 +1,6 @@
-package cl.trashout.ev2_phonetruck.ui.components.Validaciones
+package cl.trashout.ev2_phonetruck.utils
 
-
+import android.util.Patterns
 
 object ValidacionUtils {
     private val passwordRegex = Regex("^(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{6,}$")
@@ -19,7 +19,6 @@ object ValidacionUtils {
 //    fun isValidEmail(email: String): Boolean {
 //        return email.contains("@") && email.contains(".")
 //    }
-    fun isValidEmail(email: String): Boolean = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    fun isValidEmail(email: String): Boolean = Patterns.EMAIL_ADDRESS.matcher(email).matches()
     fun isNotEmpty(text: String): Boolean = text.isNotBlank()
 }
-

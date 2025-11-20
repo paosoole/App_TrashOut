@@ -2,7 +2,7 @@ package cl.trashout.ev2_phonetruck.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.trashout.ev2_phonetruck.domain.data.repository.UserRepository
+import cl.trashout.ev2_phonetruck.model.data.repository.UserRepository
 import cl.trashout.ev2_phonetruck.model.LoginUIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
