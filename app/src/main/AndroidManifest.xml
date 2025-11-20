@@ -20,10 +20,6 @@
         android:theme="@style/Theme.EV2_PhoneTruck"
         android:name=".TrashOut">
 
-<!--        <meta-data-->
-<!--            android:name="com.google.android.geo.API_KEY"-->
-<!--            android:value="AIzaSyCr5RLxvdvfuo1rKvATld_BN5qke2YOqig" />-->
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
