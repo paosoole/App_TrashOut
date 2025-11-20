@@ -1,8 +1,0 @@
-package cl.trashout.ev2_phonetruck.domain.model
-
-data class UsuarioModel (
-    val username: String = "",
-    val password: String = ""
-
-){
-}
