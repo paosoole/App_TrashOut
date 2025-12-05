@@ -2,60 +2,60 @@
 package cl.trashout.ev2_phonetruck.ui.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import cl.trashout.ev2_phonetruck.R
-import cl.trashout.ev2_phonetruck.domain.model.UserLocationModel
+import cl.trashout.ev2_phonetruck.model.UserLocationModel
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
 import com.google.accompanist.permissions.PermissionState
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.maps.android.compose.*
-import cl.trashout.ev2_phonetruck.domain.model.MainViewModel
+import cl.trashout.ev2_phonetruck.viewModel.MainViewModel
 import com.google.accompanist.permissions.isGranted
 import com.google.maps.android.compose.MapProperties
-import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.maps.model.LatLng
-import cl.trashout.ev2_phonetruck.ui.components.Buttoms.ButtonLogut
-import androidx.compose.foundation.layout.*
+import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import cl.trashout.ev2_phonetruck.R
+import cl.trashout.ev2_phonetruck.ui.components.buttoms.ButtonLogut
+import cl.trashout.ev2_phonetruck.ui.components.buttoms.RecordToggle
+import cl.trashout.ev2_phonetruck.ui.components.buttoms.RecordToggle_2
+
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @SuppressLint("MissingPermission")
 @Composable
 fun TrackingScreen(navController: NavController,
-                   viewModel: MainViewModel = viewModel(),
-                   testLocation: UserLocationModel? = null) {
+                   viewModel: MainViewModel = viewModel()
+) {
     val locationPermission = rememberPermissionState(android.Manifest.permission.ACCESS_FINE_LOCATION)
 
     // Pedimos permiso al entrar
@@ -94,6 +94,7 @@ fun TrackingScreen(navController: NavController,
     ) { innerPadding ->
         // Pasar navController al TrackingContent
         TrackingContent(
+            viewModel = viewModel,
             userLocation = userLocation,
             routePoints = routePoints,
             locationPermission = locationPermission,
@@ -112,38 +113,20 @@ fun TrackingScreen(navController: NavController,
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBar() {
-    TopAppBar(
-        title = { Text("Trash Out") },
-        navigationIcon = {
-            IconButton(onClick = { /* manejar clic del ícono */ }) {
-                Image(
-                    painter = painterResource(id = R.drawable.camion),
-                    contentDescription = "Logo de la app",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF00BCD4),
-            titleContentColor = Color.White,
-            navigationIconContentColor = Color.White
-        )
-    )
-}
 
 
 @Composable
 fun TrackingContent(
+    viewModel: MainViewModel,
     userLocation: UserLocationModel?,
     routePoints: List<LatLng>,
     locationPermission: PermissionState,
     innerPadding: PaddingValues,
     navController: NavController  // Recibir navController
 ) {
+    val isRecording by viewModel.isRecording.collectAsState()
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -152,10 +135,29 @@ fun TrackingContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Ubicación actual:", style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
+            Text(
+                text = "Ubicación actual:",
+                style = MaterialTheme.typography.titleLarge
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            RecordToggle_2(
+                isRecording = isRecording,
+                onToggle = {
+                    if (isRecording) {
+                        viewModel.stopRecording()
+                    } else {
+                        viewModel.startRecording()
+                    }
+                }
+            )
+        }
         if (locationPermission.status.isGranted) {
             // Permiso otorgado
             if (userLocation == null) {
@@ -182,6 +184,7 @@ fun TrackingContent(
                         }
                     },
                     modifier = Modifier
+
                 )
             }
         } else {
@@ -203,9 +206,8 @@ fun LocationMap(
 
     LaunchedEffect(userLocation) {
         userLocation?.let { location ->
-            cameraPositionState.position
             val currentLatLng = LatLng(location.latitude, location.longitude)
-            cameraPositionState.move(
+            cameraPositionState.animate(
                 CameraUpdateFactory.newLatLngZoom(currentLatLng, 16f)
             )
         }
@@ -228,7 +230,8 @@ fun LocationMap(
             val currentLatLng = LatLng(location.latitude, location.longitude)
             Marker(
                 state = MarkerState(position = currentLatLng),
-                title = "Tu ubicación actual"
+                title = "Tu ubicación actual",
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.camion_m2)
             )
         }
     }
