@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import cl.trashout.ev2_phonetruck.TrashOut
 import cl.trashout.ev2_phonetruck.ui.components.buttoms.BackButton
 import cl.trashout.ev2_phonetruck.viewModel.ResetViewModel
-import cl.trashout.ev2_phonetruck.ui.components.texts.CampoTexo
+import cl.trashout.ev2_phonetruck.ui.components.texts.CampoTexto
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
 import cl.trashout.ev2_phonetruck.viewModel.ResetViewModelFactory
 import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
@@ -86,7 +86,7 @@ fun ResetPassScreen(
             Spacer(modifier = Modifier.height(16.dp))
             MyTexts(Modifier.align(Alignment.CenterHorizontally))
             Spacer(modifier = Modifier.height(16.dp))
-            CampoTexo(
+            CampoTexto(
                 username = username,
                 onUsernameChange = { username = it },
             )

@@ -36,6 +36,7 @@ roomRuntimeJvm = "2.8.3"
 roomKtx = "2.8.3"
 uiTestManifest = "1.9.4"
 foundationLayout = "1.9.4"
+composeMaterial = "1.5.5"
 
 
 [libraries]
@@ -83,6 +84,7 @@ androidx-room-runtime-jvm = { group = "androidx.room", name = "room-runtime-jvm"
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 play-services-maps-v1820 = { module = "com.google.android.gms:play-services-maps", version.ref = "googlePlayServicesMaps" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
+compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

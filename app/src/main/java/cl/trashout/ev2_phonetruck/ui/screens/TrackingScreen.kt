@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,11 +40,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.maps.model.LatLng
 import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import cl.trashout.ev2_phonetruck.R
 import cl.trashout.ev2_phonetruck.ui.components.buttoms.ButtonLogut
+import cl.trashout.ev2_phonetruck.ui.components.buttoms.RecordToggle
+import cl.trashout.ev2_phonetruck.ui.components.buttoms.RecordToggle_2
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @SuppressLint("MissingPermission")
@@ -89,6 +94,7 @@ fun TrackingScreen(navController: NavController,
     ) { innerPadding ->
         // Pasar navController al TrackingContent
         TrackingContent(
+            viewModel = viewModel,
             userLocation = userLocation,
             routePoints = routePoints,
             locationPermission = locationPermission,
@@ -111,12 +117,16 @@ fun TrackingScreen(navController: NavController,
 
 @Composable
 fun TrackingContent(
+    viewModel: MainViewModel,
     userLocation: UserLocationModel?,
     routePoints: List<LatLng>,
     locationPermission: PermissionState,
     innerPadding: PaddingValues,
     navController: NavController  // Recibir navController
 ) {
+    val isRecording by viewModel.isRecording.collectAsState()
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -125,10 +135,29 @@ fun TrackingContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Ubicación actual:", style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
+            Text(
+                text = "Ubicación actual:",
+                style = MaterialTheme.typography.titleLarge
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            RecordToggle_2(
+                isRecording = isRecording,
+                onToggle = {
+                    if (isRecording) {
+                        viewModel.stopRecording()
+                    } else {
+                        viewModel.startRecording()
+                    }
+                }
+            )
+        }
         if (locationPermission.status.isGranted) {
             // Permiso otorgado
             if (userLocation == null) {
@@ -155,6 +184,7 @@ fun TrackingContent(
                         }
                     },
                     modifier = Modifier
+
                 )
             }
         } else {

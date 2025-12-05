@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CampoTexo(
+fun CampoTexto(
         username : String,
         onUsernameChange : (String) -> Unit,
     ){
