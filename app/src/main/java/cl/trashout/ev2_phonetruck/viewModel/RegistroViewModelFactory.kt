@@ -1,5 +1,6 @@
 package cl.trashout.ev2_phonetruck.viewModel
 
+import RegistroViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import cl.trashout.ev2_phonetruck.model.data.repository.UserRepository

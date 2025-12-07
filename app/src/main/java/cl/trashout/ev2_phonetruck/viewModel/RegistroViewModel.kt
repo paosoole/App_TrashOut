@@ -1,12 +1,10 @@
-package cl.trashout.ev2_phonetruck.viewModel
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cl.trashout.ev2_phonetruck.model.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class RegistroViewModel(
-    private val repository: UserRepository
+private val repository: UserRepository
 ) : ViewModel() {
 
     fun registrar(
@@ -19,19 +17,19 @@ class RegistroViewModel(
     ) {
         viewModelScope.launch {
 
-            // 1. Validaciones de campos vacíos
+            // --------------------------
+            // ✔ VALIDACIONES LOCALES
+            // --------------------------
             if (nombre.isBlank() || correo.isBlank() || username.isBlank() || password.isBlank()) {
                 onResult(false, "Todos los campos son obligatorios")
                 return@launch
             }
 
-            // 2. Validar correo
             if (!isCorreoValido(correo)) {
                 onResult(false, "Correo electrónico no válido")
                 return@launch
             }
 
-            // 3. Validar contraseña
             if (!isPasswordValida(password)) {
                 onResult(
                     false,
@@ -40,7 +38,11 @@ class RegistroViewModel(
                 return@launch
             }
 
-            // 4. Validar duplicados
+            // --------------------------
+            // ❌ VALIDACIONES DE ROOM (ELIMINADO)
+            // Estas se quitaron por no corresponder a un registro online
+            // --------------------------
+            /*
             if (repository.obtenerUsuarioPorCorreo(correo) != null) {
                 onResult(false, "El correo ya está registrado")
                 return@launch
@@ -50,20 +52,22 @@ class RegistroViewModel(
                 onResult(false, "El nombre de usuario ya existe")
                 return@launch
             }
+            */
 
-            // 5. Registrar usuario
-            try {
-                repository.registrarUsuario(
-                    nombre = nombre,
-                    correo = correo,
-                    username = username,
-                    password = password,
-                    comuna = comuna
-                )
+            // --------------------------
+            // ⭐ REGISTRO ONLINE (NUEVO)
+            // --------------------------
+            val ok = repository.registrarUsuario(
+                nombre = nombre,
+                correo = correo,
+                username = username,
+                password = password,
+                comuna = comuna
+            )
+
+            if (ok) {
                 onResult(true, null)
-
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } else {
                 onResult(false, "Error al registrar usuario")
             }
         }
