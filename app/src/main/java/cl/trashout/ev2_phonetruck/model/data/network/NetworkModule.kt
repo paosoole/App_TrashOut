@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkModule {
 
-    private const val BASE_URL = "http://192.168.56.1:8086/"  // Spring Boot local
+    private const val BASE_URL = "http://10.0.2.2:8086/"  // Spring Boot local
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

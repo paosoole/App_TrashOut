@@ -14,9 +14,11 @@ interface ApiService {
     @POST("api/usuarios/login")
     suspend fun login(@Body request: LoginRequest): Response<MensajeResponse>
 
-    @POST("api/routes") suspend fun postRoute(@Body route: RouteDto):
+    @POST("rutas")
+    suspend fun postRoute(@Body route: RouteDto):
             Response<Map<String, Any>>
-    @GET("api/routes/user/{userId}")
+
+    @GET("rutas/user/{userId}")
     suspend fun getRoutesForUser(@Path("userId") userId: Long):
             Response<List<Map<String, Any>>>
 }

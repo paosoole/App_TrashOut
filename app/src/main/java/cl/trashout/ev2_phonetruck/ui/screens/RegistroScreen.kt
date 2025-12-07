@@ -1,5 +1,6 @@
 package cl.trashout.ev2_phonetruck.ui.screens
 
+import RegistroViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,7 +18,6 @@ import cl.trashout.ev2_phonetruck.TrashOut
 import cl.trashout.ev2_phonetruck.ui.components.buttoms.BackButton
 import cl.trashout.ev2_phonetruck.ui.components.validaciones.*
 import cl.trashout.ev2_phonetruck.ui.navigation.AppScreens
-import cl.trashout.ev2_phonetruck.viewModel.RegistroViewModel
 import cl.trashout.ev2_phonetruck.viewModel.RegistroViewModelFactory
 import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
 import cl.trashout.ev2_phonetruck.ui.components.validaciones.ValidacionEmail
@@ -191,16 +191,18 @@ fun RegistroScreen(navController: NavController) {
                         password = password,
                         comuna = comuna
                     ) { success, error ->
+
                         if (success) {
                             registroExitoso = true
                             mensaje = "Usuario Registrado Exitosamente"
+
                             navController.navigate(AppScreens.LoginScreen.route) {
                                 popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
                             }
-                        }
-                         else{
-                             registroExitoso = false
-                            mensaje= error ?:"Error al registrar"
+
+                        } else {
+                            registroExitoso = false
+                            mensaje = error ?: "Error al registrar usuario"
                         }
                     }
                 },
@@ -213,6 +215,7 @@ fun RegistroScreen(navController: NavController) {
             ) {
                 Text("Registrar")
             }
+
 
             // Mensaje de éxito o error
             if (mensaje.isNotEmpty()) {

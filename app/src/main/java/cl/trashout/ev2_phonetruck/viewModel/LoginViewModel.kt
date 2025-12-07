@@ -29,15 +29,13 @@ class LoginViewModel(
         val s = _estado.value
 
         viewModelScope.launch {
-            val result = repository.login(s.username, s.password)
+            val resp = repository.login(s.username, s.password)
 
-            if (result != null) {
-                // Login OK → limpiar error
+            if (resp != null && resp.message.contains("LOGIN_OK", ignoreCase = true)) {
                 _estado.update { it.copy(error = null) }
                 onSuccess()
             } else {
-                // Error al autenticar
-                _estado.update { it.copy(error = "Usuario o contraseña incorrectos") }
+                _estado.update { it.copy(error = resp?.message ?: "Usuario o contraseña incorrectos") }
             }
         }
     }
