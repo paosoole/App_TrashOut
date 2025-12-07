@@ -28,6 +28,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     //Repositorio
     private val repository = TrashOut.userRepository
 
+    private val routeRepository = TrashOut.routeRepository
+
     // Ubicación actual del usuario
     private val _location = MutableStateFlow<UserLocationModel?>(null)
     val location = _location.asStateFlow()
@@ -133,7 +135,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
         // Convertir a DTOs con timestamps (si no tienes timestamps por punto, se usa endedAt o System)        }
             val pointDtos = collectedPoints.map{latLng ->
-                PointDto(latitude = latLng.latitude,
+                PointDto(
+                    latitude = latLng.latitude,
                     longitude = latLng.longitude,
                     timestamp = System.currentTimeMillis()
                 )
@@ -146,18 +149,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 points = pointDtos
             )
             val sent = try {
-                repository.enviarRuta(routeDto)
+                routeRepository.enviarRutaBackend(routeDto)
             }catch (e: Exception){
                 false
             }
             if (!sent){
                 val pointsJson = gson.toJson(pointDtos)
                 try {
-                    repository.guardarRutaLocal(
-                        currentUserId,
-                        routeStartTime,
-                        endedAt,
-                        pointsJson)
+                    routeRepository.guardarRutaLocal(
+                        userId = currentUserId,
+                        startedAt = routeStartTime,
+                        endedAt = endedAt,
+                        pointsJson = pointsJson)
                 }catch (e: Exception){
 
                 }

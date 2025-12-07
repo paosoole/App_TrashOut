@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.room.Room
 import cl.trashout.ev2_phonetruck.model.data.config.AppDatabase
+import cl.trashout.ev2_phonetruck.model.data.repository.RouteRepository
 import cl.trashout.ev2_phonetruck.model.data.repository.UserRepository
 import com.google.android.gms.maps.MapsInitializer
 
@@ -12,6 +13,8 @@ class TrashOut : Application() {
     companion object {
         lateinit var database: AppDatabase
         lateinit var userRepository: UserRepository
+
+        lateinit var routeRepository: RouteRepository
     }
 
     override fun onCreate()
@@ -29,8 +32,11 @@ class TrashOut : Application() {
         } catch (e: Exception) {
             Log.e("TrashOut", "Error initializing Google Maps", e)
         }
-        // Inicializar  repositorio
+        // Inicializar  repositorio usuario
         userRepository = UserRepository(database.formRegistroDao())
+
+        //iniciar repositoruo de las rutas
+        routeRepository = RouteRepository(database.routeDao())
 
 
     }
