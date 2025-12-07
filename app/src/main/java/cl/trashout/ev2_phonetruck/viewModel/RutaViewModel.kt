@@ -7,8 +7,9 @@ import kotlinx.coroutines.launch
 import cl.trashout.ev2_phonetruck.model.data.entities.RouteRoomEntity
 import cl.trashout.ev2_phonetruck.model.data.network.PointDto
 import cl.trashout.ev2_phonetruck.model.data.network.RouteDto
+import cl.trashout.ev2_phonetruck.model.data.repository.RouteRepository
 
-class RutaViewModel : ViewModel() {
+class RutaViewModel(repoRuta1: RouteRepository) : ViewModel() {
 
     private val repoRuta = TrashOut.routeRepository
 
