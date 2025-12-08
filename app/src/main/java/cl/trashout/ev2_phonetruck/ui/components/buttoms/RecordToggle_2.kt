@@ -29,8 +29,9 @@ fun RecordToggle_2(
     onToggle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val width = 200.dp
-    val knobSize = 50.dp
+    val width = 120.dp
+    val height = 32.dp
+    val knobSize = 28.dp
 
     val widthPx = with(LocalDensity.current) { width.toPx() }
     val knobSizePx = with(LocalDensity.current) { knobSize.toPx() }
@@ -42,8 +43,8 @@ fun RecordToggle_2(
     Box(
         modifier = modifier
             .width(width)
-            .height(50.dp)
-            .clip(RoundedCornerShape(25.dp))
+            .height(height)
+            .clip(RoundedCornerShape(height / 2))
             .background(Color(0xFFB9E5E8))
     ) {
 
@@ -53,8 +54,8 @@ fun RecordToggle_2(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = if (isRecording) "Detener Ruta" else "Iniciar Ruta",
-                style = MaterialTheme.typography.bodyLarge,
+                text = if (isRecording) "Detener" else "Iniciar",
+                style = MaterialTheme.typography.labelMedium,
             )
         }
 
@@ -63,7 +64,7 @@ fun RecordToggle_2(
             modifier = Modifier
                 .offset { IntOffset(offset.roundToInt(), 0) }
                 .size(knobSize)
-                .clip(RoundedCornerShape(25.dp))
+                .clip(RoundedCornerShape(height / 2))
                 .background(Color.White)
                 .draggable(
                     orientation = Orientation.Horizontal,
@@ -88,7 +89,7 @@ fun RecordToggle_2(
             Icon(
                 imageVector = if (isRecording) Icons.Default.Stop else Icons.Default.FiberManualRecord,
                 contentDescription = null,
-                tint = if (isRecording) Color.Red else Color(0xFF00897B)
+                tint = if (isRecording) Color.Red else Color(0xFFAEE5EC)
             )
         }
     }
