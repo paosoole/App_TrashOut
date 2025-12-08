@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,10 +36,11 @@ import cl.trashout.ev2_phonetruck.viewModel.LoginViewModelFactory
 import cl.trashout.ev2_phonetruck.TrashOut
 import cl.trashout.ev2_phonetruck.ui.components.barras.TopBar
 import cl.trashout.ev2_phonetruck.ui.components.barras.LogoTrashOut
+import cl.trashout.ev2_phonetruck.viewModel.MainViewModel
 
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, mainVm: MainViewModel) {
 
     val viewModel: LoginViewModel = viewModel(
         factory = LoginViewModelFactory(TrashOut.userRepository)
@@ -105,7 +105,10 @@ fun LoginScreen(navController: NavController) {
                         return@ButtonLogin
                     }
 
-                    viewModel.iniciarSesion {
+                    viewModel.iniciarSesion {userId ->
+
+                        mainVm.setUserId(userId)   // Guardar el id REAL del usuario
+
                         navController.navigate(AppScreens.TrackingScreen.route) {
                             popUpTo(AppScreens.LoginScreen.route) { inclusive = true }
                         }
@@ -127,8 +130,6 @@ fun LoginScreen(navController: NavController) {
     }
 }
 
-
-
 @Composable
 fun MyText(text: String) {
     Text(
@@ -148,7 +149,6 @@ fun MyTexts(modifier: Modifier = Modifier) {
         MyText("Acceso para Conductores")
     }
 }
-
 
 
 @Composable
@@ -205,9 +205,9 @@ fun BoxOpciones(onRegistrarClick: () -> Unit, onOlvidoClick: () -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    val fakeNavController = androidx.navigation.compose.rememberNavController()
-    LoginScreen(navController = fakeNavController)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun LoginScreenPreview() {
+//    val fakeNavController = androidx.navigation.compose.rememberNavController()
+//    LoginScreen(navController = fakeNavController)
+//}
