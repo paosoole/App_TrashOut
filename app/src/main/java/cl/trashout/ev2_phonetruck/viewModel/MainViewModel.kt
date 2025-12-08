@@ -129,7 +129,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val collectedPoints = _routePoints.value.toList()
 
         //detener actualizacion cuando no se necesita
-        startLocationUpdates()
+        stopLocationUpdates()
 
         //enviar y guardar
         viewModelScope.launch {

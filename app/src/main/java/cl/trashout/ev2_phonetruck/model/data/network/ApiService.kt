@@ -1,5 +1,6 @@
 package cl.trashout.ev2_phonetruck.model.data.network
 
+import RutaResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -12,11 +13,10 @@ interface ApiService {
     suspend fun registrar(@Body request: RegistroRequest): Response<MensajeResponse>
 
     @POST("api/usuarios/login")
-    suspend fun login(@Body request: LoginRequest): Response<MensajeResponse>
+    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     @POST("rutas")
-    suspend fun postRoute(@Body route: RouteDto):
-            Response<Map<String, Any>>
+    suspend fun postRoute(@Body route: RouteDto): Response<RutaResponse>
 
     @GET("rutas/user/{userId}")
     suspend fun getRoutesForUser(@Path("userId") userId: Long):

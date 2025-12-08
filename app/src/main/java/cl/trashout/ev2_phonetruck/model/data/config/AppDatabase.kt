@@ -5,9 +5,14 @@ import androidx.room.RoomDatabase
 import cl.trashout.ev2_phonetruck.model.data.DAO.FormRegistroDao
 import cl.trashout.ev2_phonetruck.model.data.DAO.RouteDao
 import cl.trashout.ev2_phonetruck.model.data.entities.FormRegistroEntity
+import cl.trashout.ev2_phonetruck.model.data.entities.RouteRoomEntity
+
 @Database(
-    entities = [FormRegistroEntity::class],
-    version = 1,
+    entities = [
+        FormRegistroEntity::class,
+        RouteRoomEntity::class      // ← AGREGADA
+    ],
+    version = 2,                    // ← IMPORTANTE: aumenta la versión
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -15,5 +20,4 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun formRegistroDao(): FormRegistroDao
 
     abstract fun routeDao(): RouteDao
-    }
-
+}

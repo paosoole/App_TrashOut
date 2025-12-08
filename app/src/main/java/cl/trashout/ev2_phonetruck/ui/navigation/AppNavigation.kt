@@ -20,10 +20,11 @@ fun AppNavigation (mainVm: MainViewModel) {
     ) {
         composable(route = AppScreens.LoginScreen.route) {
             LoginScreen(navController = navController,
-                mainVm = mainVm)
+                mainVm)
         }
         composable(route = AppScreens.TrackingScreen.route){
-            TrackingScreen( navController = navController)
+            TrackingScreen( navController = navController,
+                mainVm)
         }
         composable(route = AppScreens.ResetPassScreen.route){
             ResetPassScreen(navController = navController)
