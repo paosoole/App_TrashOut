@@ -83,6 +83,7 @@ fun TrackingScreen(
         topBar = { TopBar() },
         bottomBar = {
             BottomAppBar(
+                modifier = Modifier.height(48.dp),
                 containerColor = Color(0xFF00BCD4),
                 contentColor = Color.White
             ) {

@@ -58,6 +58,7 @@ fun ResetPassScreen(
         },
         bottomBar = {
             BottomAppBar(
+                modifier = Modifier.height(48.dp),
                 containerColor = Color(0xFF00BCD4),
                 contentColor = MaterialTheme.colorScheme.tertiary
             ) {
