@@ -8,9 +8,10 @@ import cl.trashout.ev2_phonetruck.ui.screens.LoginScreen
 import cl.trashout.ev2_phonetruck.ui.screens.RegistroScreen
 import cl.trashout.ev2_phonetruck.ui.screens.ResetPassScreen
 import cl.trashout.ev2_phonetruck.ui.screens.TrackingScreen
+import cl.trashout.ev2_phonetruck.viewModel.MainViewModel
 
 @Composable
-fun AppNavigation () {
+fun AppNavigation (mainVm: MainViewModel) {
     val navController = rememberNavController()
 
     NavHost(
@@ -18,7 +19,8 @@ fun AppNavigation () {
         startDestination = AppScreens.LoginScreen.route
     ) {
         composable(route = AppScreens.LoginScreen.route) {
-            LoginScreen(navController = navController)
+            LoginScreen(navController = navController,
+                mainVm = mainVm)
         }
         composable(route = AppScreens.TrackingScreen.route){
             TrackingScreen( navController = navController)

@@ -35,7 +35,7 @@ class UserRepository(
     // ---------------------------
     // LOGIN EN BACKEND
     // ---------------------------
-    suspend fun login(username: String, password: String): MensajeResponse? {
+    suspend fun login(username: String, password: String): LoginResponse? {
         return try {
             val resp = api.login(LoginRequest(username, password))
             if (resp.isSuccessful) resp.body() else null

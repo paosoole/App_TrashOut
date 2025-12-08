@@ -25,15 +25,15 @@ class LoginViewModel(
     fun onPasswordChange(v: String) =
         _estado.update { it.copy(password = v, error = null) }
 
-    fun iniciarSesion(onSuccess: () -> Unit) {
+    fun iniciarSesion(onSuccess: (Long) -> Unit) {
         val s = _estado.value
 
         viewModelScope.launch {
             val resp = repository.login(s.username, s.password)
 
             if (resp != null && resp.message.contains("LOGIN_OK", ignoreCase = true)) {
-                _estado.update { it.copy(error = null) }
-                onSuccess()
+                _estado.update { it.copy(error = null, userId = resp.userId) }
+                onSuccess(resp.userId)
             } else {
                 _estado.update { it.copy(error = resp?.message ?: "Usuario o contraseña incorrectos") }
             }

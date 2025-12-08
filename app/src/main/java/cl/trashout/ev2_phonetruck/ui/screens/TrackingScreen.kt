@@ -37,9 +37,10 @@ import cl.trashout.ev2_phonetruck.viewModel.MainViewModel
 @SuppressLint("MissingPermission")
 @Composable
 fun TrackingScreen(
-    navController: NavController
+    navController: NavController,
+    mainViewModel: MainViewModel
 ) {
-    val viewModel: MainViewModel = viewModel()
+    val viewModel = mainViewModel
 
     val locationPermission =
         rememberPermissionState(android.Manifest.permission.ACCESS_FINE_LOCATION)
